@@ -14,10 +14,10 @@ public:
     }
 
     Arr *get_item(const Key& key) {
-        Arr *item_to_return = this->fast->get_item(key);
+        Arr *item_to_return = this->cache_->get_item(key);
         if (!item_to_return) {
             item_to_return = this->find_item_in_vector(key);
-            this->fast->push_item(item_to_return);
+            this->cache_->push_item(item_to_return);
         }
 
         return item_to_return;
@@ -45,14 +45,14 @@ private:
 
 public:
     ~data_base() {
-        delete this->fast;
+        delete this->cache_;
         for (Arr *item : *(this->data)) delete item;
         delete this->data;
     }
 
 private:
     std::vector<Arr *> *data = new std::vector<Arr *>();
-    cache<Arr, Key> *fast = new cache<Arr, Key>();
+    cache<Arr, Key> *cache_ = new cache<Arr, Key>();
 };
 
 #endif  // SRC_DATABASE_HPP_
